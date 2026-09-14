@@ -126,6 +126,20 @@ footer .logo{color:#fff;font-size:1.2rem}
 .lk-form input{flex:1;background:var(--white);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:11px 13px;font:inherit}
 .lk-form button{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:11px 17px;font-weight:600;cursor:pointer}
 
+
+.calc{max-width:760px;margin:0 auto;background:var(--white);border:1px solid var(--line);border-radius:16px;padding:36px}
+.calc-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+.calc-row:first-child{border-top:0}
+.calc-row label{flex:1;display:flex;align-items:center;gap:12px;cursor:pointer;font-size:.98rem;color:var(--ink)}
+.calc-row input[type=checkbox]{width:19px;height:19px;accent-color:var(--accent);cursor:pointer;flex:none}
+.calc-row .amt{color:var(--muted);font-size:.95rem;font-variant-numeric:tabular-nums}
+.calc-total{margin-top:22px;padding-top:22px;border-top:2px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.calc-total .lbl{font-size:1rem;color:var(--body)}
+.calc-total .val{font-family:'Fraunces',serif;font-size:2.1rem;color:var(--ink);white-space:nowrap}
+.calc-compare{margin-top:18px;background:var(--paper);border-radius:10px;padding:18px 20px;font-size:.98rem;color:var(--body);line-height:1.6}
+.calc-compare b{color:var(--accent)}
+.calc .btn{margin-top:22px}
+
 @media(max-width:880px){
   .hero-grid,.grid2,.contact-grid{grid-template-columns:1fr;gap:40px}
   .grid3{grid-template-columns:1fr}
@@ -263,6 +277,29 @@ footer .logo{color:#fff;font-size:1.2rem}
 </div>
 </section>
 
+<section class="sec">
+<div class="wrap">
+  <div class="sh center">
+    <div class="eyebrow">Regn på det</div>
+    <h2>Hvad betaler du i abonnementer om måneden?</h2>
+    <p>Sæt kryds ved det du betaler for i dag. De fleste bliver overraskede over totalen.</p>
+  </div>
+  <div class="calc" id="calc">
+    <div class="calc-row"><label><input type="checkbox" data-amt="900" checked> Ordre- og sagsstyring</label><span class="amt">900 kr</span></div>
+    <div class="calc-row"><label><input type="checkbox" data-amt="400" checked> Regnskab og fakturering</label><span class="amt">400 kr</span></div>
+    <div class="calc-row"><label><input type="checkbox" data-amt="300" checked> Hjemmeside og hosting</label><span class="amt">300 kr</span></div>
+    <div class="calc-row"><label><input type="checkbox" data-amt="800" checked> Telefonsvarer eller telefonist</label><span class="amt">800 kr</span></div>
+    <div class="calc-row"><label><input type="checkbox" data-amt="500"> Chat og kundeservice</label><span class="amt">500 kr</span></div>
+    <div class="calc-row"><label><input type="checkbox" data-amt="300"> Online booking</label><span class="amt">300 kr</span></div>
+    <div class="calc-row"><label><input type="checkbox" data-amt="250"> Nyhedsbrev og marketing</label><span class="amt">250 kr</span></div>
+    <div class="calc-row"><label><input type="checkbox" data-amt="500"> Microsoft 365 til teamet</label><span class="amt">500 kr</span></div>
+    <div class="calc-total"><span class="lbl">Du betaler i dag cirka</span><span class="val"><span id="calc-val">0</span> kr<small style="font:500 1rem Inter,sans-serif;color:var(--muted)">/md</small></span></div>
+    <div class="calc-compare">Det er penge der forsvinder til <b id="calc-n">0</b> forskellige leverandører hver måned. Lokly samler det hele i dine egne systemer for <b>8.500 kr/md</b> — og du ejer det i stedet for at leje det. Tallene er typiske danske priser, dine kan være højere.</div>
+    <a href="#kontakt" class="btn btn-primary" style="width:100%;justify-content:center">Book en gratis gennemgang</a>
+  </div>
+</div>
+</section>
+
 <section id="pris" class="sec paper-sec">
 <div class="wrap">
   <div class="sh center">
@@ -338,6 +375,11 @@ function chatToggle(open){var w=document.getElementById('lk-chat');w.classList.t
 function chatAdd(who,t){var l=document.getElementById('lk-log'),d=document.createElement('div');d.className='lk-m '+who;d.textContent=t;l.appendChild(d);l.scrollTop=l.scrollHeight;return d}
 function chatSend(e){e.preventDefault();var i=document.getElementById('lk-in'),t=i.value.trim();if(!t)return false;i.value='';chatAdd('u',t);var w=chatAdd('a','…');
 fetch('https://nordai.tech/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,session_id:chatSid})}).then(function(r){return r.json()}).then(function(j){chatSid=j.session_id||chatSid;w.textContent=(j.response||j.error||'Fejl').replace(/\*\*/g,'').replace(/^#+\s*/gm,'')}).catch(function(){w.textContent='Forbindelsen drillede. Prøv igen.'});return false}
+
+(function(){var c=document.getElementById('calc');if(!c)return;
+function upd(){var t=0,n=0;c.querySelectorAll('input[type=checkbox]').forEach(function(x){if(x.checked){t+=parseInt(x.dataset.amt);n++}});
+document.getElementById('calc-val').textContent=t.toLocaleString('da-DK');document.getElementById('calc-n').textContent=n;}
+c.querySelectorAll('input[type=checkbox]').forEach(function(x){x.addEventListener('change',upd)});upd();})();
 </script>
 </body>
 </html>

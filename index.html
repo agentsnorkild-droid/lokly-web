@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lokly — AI til lokale virksomheder</title>
+<meta name="description" content="Lokly giver din virksomhed en digital medarbejder der arbejder 24/7. Sig det til din AI — den klarer resten. Booking, kundeservice, hjemmeside, overblik. Alt-i-en-boks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#050a14;--surface:#0c1222;--card:#111b2e;--border:#1a2744;--cyan:#00d4ff;--blue:#3b7dff;--gradient:linear-gradient(135deg,#00d4ff,#3b7dff);--text:#e8edf5;--muted:#7a8ba8;--white:#fff;--green:#22c55e}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+section{padding:100px 0}
+.sh-label{text-align:center;color:var(--cyan);font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.sh-title{text-align:center;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;margin-bottom:12px;letter-spacing:-.01em}
+.sh-sub{text-align:center;color:var(--muted);max-width:560px;margin:0 auto;font-size:1rem}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 32px;border-radius:14px;font-weight:700;font-size:1rem;border:none;cursor:pointer;transition:all .25s}
+.btn-primary{background:var(--gradient);color:var(--bg);box-shadow:0 4px 30px rgba(0,212,255,.2)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(0,212,255,.3)}
+.btn-ghost{background:rgba(255,255,255,.04);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--cyan);background:rgba(0,212,255,.04)}
+.grad{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 0;transition:background .3s}
+nav.scrolled{background:rgba(5,10,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.4rem;font-weight:900;letter-spacing:-.5px}
+.logo span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:32px;align-items:center;list-style:none}
+.nav-links a{color:var(--muted);font-size:.88rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--gradient);color:var(--bg)!important;padding:10px 24px;border-radius:10px;font-weight:700!important}
+.burger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+@media(max-width:768px){
+.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--surface);flex-direction:column;padding:24px;gap:20px;border-bottom:1px solid var(--border)}
+.nav-links.open{display:flex}
+.burger{display:block}
+}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:100px 0 80px}
+.hero::before{content:'';position:absolute;top:10%;right:0;width:60%;height:80%;background:radial-gradient(ellipse at 70% 40%,rgba(0,212,255,.08),transparent 60%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.15);padding:8px 18px;border-radius:40px;font-size:.82rem;font-weight:600;color:var(--cyan);margin-bottom:24px}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(2.4rem,4.5vw,3.8rem);font-weight:900;line-height:1.08;letter-spacing:-.02em;margin-bottom:20px}
+.hero p{font-size:1.15rem;color:var(--muted);margin-bottom:36px;max-width:480px;line-height:1.7}
+.hero-buttons{display:flex;gap:14px;flex-wrap:wrap}
+@media(max-width:768px){.hero-grid{grid-template-columns:1fr}.hero-visual{order:-1}}
+
+/* PHONE MOCKUP */
+.hero-visual{position:relative}
+.hero-phone{width:100%;max-width:320px;margin:0 auto;background:var(--card);border-radius:28px;border:1px solid var(--border);overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.4)}
+.phone-header{padding:16px 20px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.phone-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.phone-title{font-size:.85rem;font-weight:700}
+.phone-badge{margin-left:auto;font-size:.65rem;color:var(--cyan);background:rgba(0,212,255,.1);padding:3px 10px;border-radius:12px;font-weight:600}
+.phone-body{padding:16px;display:flex;flex-direction:column;gap:10px;min-height:340px}
+.ph-msg{padding:10px 14px;border-radius:14px;font-size:.82rem;line-height:1.5;max-width:85%;animation:fadeIn .5s ease both}
+.ph-msg.bot{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.ph-msg.user{background:var(--gradient);color:var(--bg);align-self:flex-end;border-bottom-right-radius:4px;font-weight:500}
+.ph-msg:nth-child(2){animation-delay:.3s}.ph-msg:nth-child(3){animation-delay:.6s}.ph-msg:nth-child(4){animation-delay:.9s}.ph-msg:nth-child(5){animation-delay:1.2s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.phone-bar{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
+.phone-input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:8px 14px;color:var(--muted);font-size:.8rem}
+
+/* SOCIAL PROOF BAR */
+.social-proof{padding:40px 0 60px;border-bottom:1px solid var(--border)}
+.proof-row{display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap}
+.proof-item{text-align:center}
+.proof-num{font-size:2rem;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.proof-label{font-size:.82rem;color:var(--muted);margin-top:2px}
+
+/* SCENARIOS — "Sig det til din AI" */
+.scenario-intro{max-width:640px;margin:0 auto 56px;text-align:center}
+.scenario-intro p{color:var(--muted);font-size:1.05rem;line-height:1.75}
+.scenarios{display:flex;flex-direction:column;gap:32px;max-width:900px;margin:0 auto}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--card);border:1px solid var(--border);border-radius:24px;overflow:hidden;transition:border-color .3s}
+.sc:hover{border-color:rgba(0,212,255,.3)}
+.sc:nth-child(even){direction:rtl}.sc:nth-child(even)>*{direction:ltr}
+.sc-text{padding:36px;display:flex;flex-direction:column;justify-content:center}
+.sc-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--cyan);margin-bottom:10px}
+.sc-text h3{font-size:1.25rem;font-weight:800;margin-bottom:8px;line-height:1.3}
+.sc-text p{color:var(--muted);font-size:.92rem;line-height:1.65;margin-bottom:16px}
+.sc-quote{background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.12);border-radius:14px;padding:14px 18px;font-size:.88rem;font-style:italic;color:var(--text);line-height:1.5}
+.sc-quote::before{content:'"';font-size:1.4rem;color:var(--cyan);font-weight:800;margin-right:4px}
+.sc-chat{background:var(--surface);padding:24px;display:flex;flex-direction:column;gap:10px;justify-content:center}
+.sc-msg{padding:10px 14px;border-radius:14px;font-size:.82rem;line-height:1.5;max-width:90%}
+.sc-msg.u{background:var(--gradient);color:var(--bg);align-self:flex-end;border-bottom-right-radius:4px;font-weight:500}
+.sc-msg.a{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.12);align-self:flex-start;border-bottom-left-radius:4px}
+@media(max-width:768px){
+.sc,.sc:nth-child(even){grid-template-columns:1fr;direction:ltr}
+.sc:nth-child(even)>*{direction:ltr}
+.sc-chat{min-height:200px}
+}
+
+/* HOW IT WORKS */
+#how{background:var(--surface)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px}
+.step{text-align:center;padding:32px 20px;background:var(--card);border:1px solid var(--border);border-radius:20px}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--gradient);color:var(--bg);font-weight:900;font-size:1.1rem;margin-bottom:16px}
+.step h3{font-size:1rem;margin-bottom:6px}
+.step p{color:var(--muted);font-size:.85rem}
+@media(max-width:768px){.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.steps{grid-template-columns:1fr}}
+
+/* "DIG & DIN AI" DAILY LIFE */
+.daily{max-width:700px;margin:0 auto}
+.daily-header{text-align:center;margin-bottom:40px}
+.daily-header p{color:var(--muted);font-size:1rem;margin-top:8px}
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--cyan),var(--blue),transparent)}
+.tl-item{position:relative;margin-bottom:28px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:16px;transition:border-color .3s}
+.tl-item:hover{border-color:rgba(0,212,255,.3)}
+.tl-item::before{content:'';position:absolute;left:-27px;top:24px;width:12px;height:12px;border-radius:50%;background:var(--gradient);border:2px solid var(--bg)}
+.tl-time{font-size:.75rem;font-weight:700;color:var(--cyan);margin-bottom:6px}
+.tl-item h4{font-size:.95rem;font-weight:700;margin-bottom:4px}
+.tl-item p{color:var(--muted);font-size:.88rem}
+.tl-who{display:inline-block;font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:6px;margin-bottom:6px}
+.tl-who.ai{background:rgba(0,212,255,.1);color:var(--cyan)}
+.tl-who.you{background:rgba(139,92,246,.1);color:#a78bfa}
+
+/* PRICING */
+#pricing{background:var(--surface)}
+.pricing-card{max-width:560px;margin:48px auto 0;background:var(--card);border:2px solid var(--cyan);border-radius:24px;padding:48px;text-align:center;position:relative;overflow:hidden}
+.pricing-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient)}
+.pricing-label{font-size:.85rem;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.pricing-name{font-size:1.8rem;font-weight:900;margin-bottom:24px}
+.pricing-price{margin-bottom:32px}
+.pricing-setup{font-size:2.8rem;font-weight:900;line-height:1}
+.pricing-setup small{font-size:1rem;color:var(--muted);font-weight:500}
+.pricing-monthly{font-size:1.1rem;color:var(--muted);margin-top:8px}
+.pricing-monthly span{color:var(--white);font-weight:700;font-size:1.3rem}
+.pricing-features{list-style:none;text-align:left;display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.pricing-features li{display:flex;align-items:center;gap:10px;font-size:.95rem}
+.pricing-features .check{color:var(--green);font-weight:700;font-size:1.1rem}
+.pricing-note{font-size:.82rem;color:var(--muted);margin-top:16px}
+
+/* CTA */
+.cta-section{text-align:center;padding:120px 0}
+.cta-section h2{font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:16px}
+.cta-section p{color:var(--muted);font-size:1.1rem;margin-bottom:36px;max-width:500px;margin-left:auto;margin-right:auto}
+
+/* CONTACT */
+#kontakt{background:var(--surface)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.contact-info h3{font-size:1.4rem;font-weight:800;margin-bottom:20px}
+.contact-items{display:flex;flex-direction:column;gap:20px}
+.contact-item{display:flex;gap:14px;align-items:flex-start}
+.ci-icon{width:42px;height:42px;border-radius:12px;background:rgba(0,212,255,.08);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.contact-item h4{font-size:.95rem;margin-bottom:2px}
+.contact-item p{color:var(--muted);font-size:.88rem}
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.contact-form input,.contact-form textarea{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;color:var(--text);font-family:inherit;font-size:.95rem;outline:none;transition:border-color .2s}
+.contact-form input:focus,.contact-form textarea:focus{border-color:var(--cyan)}
+.contact-form textarea{min-height:120px;resize:vertical}
+@media(max-width:768px){.contact-grid{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--border);padding:32px 0;text-align:center}
+footer p{color:var(--muted);font-size:.82rem}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+<div class="container">
+  <a href="#" class="logo"><span>Lok</span>ly</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#scenarios">Hvad kan den?</a></li>
+    <li><a href="#how">Sådan virker det</a></li>
+    <li><a href="#daily">En dag med din AI</a></li>
+    <li><a href="#pricing">Pris</a></li>
+    <li><a href="#" onclick="chatToggle(true);return false">Prøv chatten</a></li>
+    <li><a href="#kontakt" class="nav-cta">Book et møde →</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Menu">☰</button>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge"><span class="dot"></span> Klar til danske virksomheder</div>
+      <h1>Sig det til din AI.<br><span class="grad">Den klarer resten.</span></h1>
+      <p>Lokly giver din virksomhed en digital medarbejder der besvarer kunder, booker aftaler, styrer din hjemmeside og holder styr på det hele — 24 timer i døgnet, 7 dage om ugen.</p>
+      <div class="hero-buttons">
+        <a href="#kontakt" class="btn btn-primary">Book gratis demo →</a>
+        <a href="#" class="btn btn-secondary" onclick="chatToggle(true);return false">Prøv chatten nu</a>
+        <a href="#scenarios" class="btn btn-ghost">Se hvad den kan</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-phone">
+        <div class="phone-header">
+          <div class="phone-dot"></div>
+          <div class="phone-title">Din AI-medarbejder</div>
+          <div class="phone-badge">Online</div>
+        </div>
+        <div class="phone-body">
+          <div class="ph-msg bot">God morgen! ☀️ Du har 3 aftaler i dag. Én kunde har bedt om at rykke til kl. 14 — skal jeg bekræfte?</div>
+          <div class="ph-msg user">Ja, og send tilbud til ham fra i går</div>
+          <div class="ph-msg bot">✅ Aftale rykket og bekræftelse sendt. Tilbuddet til Lars H. er sendt på email — 12.500 kr for gulvafslibning inkl. lakering.</div>
+          <div class="ph-msg user">Perfekt. Opdater prislisten på hjemmesiden med de nye priser</div>
+          <div class="ph-msg bot">✅ Prislisten er opdateret og live. Jeg har også rettet det på Google Business-profilen.</div>
+        </div>
+        <div class="phone-bar">
+          <div class="phone-input">Skriv til din AI...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="social-proof">
+<div class="container">
+  <div class="proof-row">
+    <div class="proof-item"><div class="proof-num">24/7</div><div class="proof-label">Altid tilgængelig</div></div>
+    <div class="proof-item"><div class="proof-num">100%</div><div class="proof-label">Dansk</div></div>
+    <div class="proof-item"><div class="proof-num">7 dage</div><div class="proof-label">Klar til brug</div></div>
+    <div class="proof-item"><div class="proof-num">0 kr</div><div class="proof-label">For en demo</div></div>
+  </div>
+</div>
+</div>
+
+<!-- SCENARIOS — "Sig det til din AI" -->
+<section id="scenarios">
+<div class="container">
+  <div class="sh-label">Hvad kan din digitale medarbejder?</div>
+  <h2 class="sh-title">Du siger det. Din AI gør det.</h2>
+  <div class="scenario-intro">
+    <p>Din digitale medarbejder er ikke bare en chatbot — det er en intelligent assistent der forstår din virksomhed og handler på dine vegne. Her er et par eksempler.</p>
+  </div>
+
+  <div class="scenarios">
+
+    <!-- Scenario 1: Kundehenvendelse -->
+    <div class="sc">
+      <div class="sc-text">
+        <div class="sc-label">Kundehenvendelse</div>
+        <h3>En kunde skriver kl. 23 om aftenen — din AI svarer med det samme</h3>
+        <p>Ingen kunder går tabt fordi du sov, var optaget eller glemte at tjekke indbakken. Din AI kender dine priser, services og åbningstider — og svarer professionelt, hver gang.</p>
+        <div class="sc-quote">Vi mistede kunder fordi vi ikke svarede hurtigt nok. Nu svarer AI'en inden for sekunder — også om natten.</div>
+      </div>
+      <div class="sc-chat">
+        <div class="sc-msg u">Hej, hvad koster det at få slebet gulve i 80 kvm?</div>
+        <div class="sc-msg a">Hej! 👋 For 80 kvm gulvafslibning ligger prisen typisk på 9.600-12.000 kr afhængigt af gulvtype og tilstand. Skal jeg booke en gratis besigtigelse så vi kan give et præcist tilbud?</div>
+        <div class="sc-msg u">Ja gerne, helst i denne uge</div>
+        <div class="sc-msg a">Perfekt! Jeg har en ledig tid torsdag kl. 10:00 eller fredag kl. 13:30. Hvad passer bedst? 📅</div>
+      </div>
+    </div>
+
+    <!-- Scenario 2: Booking & kalender -->
+    <div class="sc">
+      <div class="sc-text">
+        <div class="sc-label">Booking & kalender</div>
+        <h3>Sig "flyt min aftale" — og det sker</h3>
+        <p>Du chatter med din AI som du ville chatte med en kollega. Flyt aftaler, book nye tider, send bekræftelser — alt sammen med en kort besked. Ingen systemer at lære, ingen knapper at trykke på.</p>
+        <div class="sc-quote">Jeg brugte 45 min om dagen på at koordinere aftaler. Nu siger jeg bare hvad der skal ske, og AI'en ordner det.</div>
+      </div>
+      <div class="sc-chat">
+        <div class="sc-msg u">Flyt Morten Hansens aftale til næste uge og send ham besked</div>
+        <div class="sc-msg a">✅ Flyttet til mandag d. 24/3 kl. 09:00. SMS-bekræftelse sendt til Morten. Han har svaret "👍".</div>
+        <div class="sc-msg u">Book resten af ugen op med de ventende kunder</div>
+        <div class="sc-msg a">✅ 4 aftaler booket: tirsdag Amager, onsdag Valby, torsdag Nørrebro, fredag Hvidovre. Bekræftelser sendt til alle.</div>
+      </div>
+    </div>
+
+    <!-- Scenario 3: Hjemmeside -->
+    <div class="sc">
+      <div class="sc-text">
+        <div class="sc-label">Hjemmeside-styring</div>
+        <h3>"Opdater priserne" — og din hjemmeside ændrer sig</h3>
+        <p>Du behøver ikke logge ind i WordPress, ringe til en webudvikler eller vente dagevis. Sig det til din AI, og ændringen er live inden for sekunder. Priser, billeder, åbningstider — alt.</p>
+        <div class="sc-quote">Før betalte jeg en webudvikler 500 kr hver gang jeg skulle ændre en pris. Nu siger jeg det bare til min AI.</div>
+      </div>
+      <div class="sc-chat">
+        <div class="sc-msg u">Sæt gulvafslibning op til 135 kr/kvm og tilføj det nye billede fra i går</div>
+        <div class="sc-msg a">✅ Prislisten er opdateret: Gulvafslibning nu 135 kr/kvm. Billedet fra i går er tilføjet til galleriet. Ændringerne er live nu.</div>
+        <div class="sc-msg u">Tilføj også en tekst om at vi nu tilbyder trappeslibning</div>
+        <div class="sc-msg a">✅ Ny sektion tilføjet: "Nu tilbyder vi også professionel trappeslibning — kontakt os for et uforpligtende tilbud." Skal jeg justere noget?</div>
+      </div>
+    </div>
+
+    <!-- Scenario 4: Overblik -->
+    <div class="sc">
+      <div class="sc-text">
+        <div class="sc-label">Overblik & indsigt</div>
+        <h3>"Hvordan går det?" — og du får svar</h3>
+        <p>Spørg din AI om hvad som helst om din forretning. Hvor mange henvendelser fik du i denne uge? Hvad spørger kunderne oftest om? Hvem har ikke betalt? Din AI har styr på det.</p>
+        <div class="sc-quote">Det er som at have en personlig assistent der har overblik over hele min forretning.</div>
+      </div>
+      <div class="sc-chat">
+        <div class="sc-msg u">Giv mig en status på denne uge</div>
+        <div class="sc-msg a">📊 Denne uge: 14 kundehenvendelser (op 40%), 6 bookinger, 2 tilbud afventer svar. Mest spurgte: priser på gulvafslibning. 3 femstjernede anmeldelser modtaget.</div>
+        <div class="sc-msg u">Hvem har stadig ikke svaret på tilbud?</div>
+        <div class="sc-msg a">Lars H. (12.500 kr, sendt mandag) og Sofie M. (8.900 kr, sendt onsdag). Skal jeg sende en venlig opfølgning til begge?</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+<div class="container">
+  <div class="sh-label">Sådan virker det</div>
+  <h2 class="sh-title">Fra opkald til digital medarbejder på 7 dage</h2>
+  <p class="sh-sub">Vi klarer alt. Du skal bare fortælle os om din virksomhed.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Vi snakker</h3>
+      <p>15 min gratis opkald. Vi forstår din forretning, kunder og behov.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Vi bygger</h3>
+      <p>Din AI-medarbejder konfigureres med dine priser, services og tone.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Go live</h3>
+      <p>Din digitale medarbejder går online — hjemmeside, chat, booking. Alt klar.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Vi optimerer</h3>
+      <p>Løbende forbedringer baseret på rigtige samtaler. Den bliver bedre hele tiden.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- A DAY WITH YOUR AI -->
+<section id="daily">
+<div class="container">
+  <div class="sh-label">En dag med din AI</div>
+  <h2 class="sh-title">Sådan ser din hverdag ud med en digital medarbejder</h2>
+  <p class="sh-sub" style="margin-bottom:48px">Mens du fokuserer på dit arbejde, holder din AI styr på resten.</p>
+
+  <div class="daily">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-who ai">🤖 Din AI</div>
+        <div class="tl-time">07:00</div>
+        <h4>Morgenoverblik sendt</h4>
+        <p>Din AI sender dig en kort oversigt: 4 aftaler i dag, 2 nye henvendelser, 1 afventer svar på tilbud.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-who ai">🤖 Din AI</div>
+        <div class="tl-time">08:15</div>
+        <h4>Ny kunde håndteret</h4>
+        <p>En kunde skrev via hjemmesiden. Din AI svarede med priser og bookede en besigtigelse i morgen kl. 10.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-who you">👤 Dig</div>
+        <div class="tl-time">09:00</div>
+        <h4>Du kører ud på første opgave</h4>
+        <p>Du fokuserer 100% på dit arbejde. Din AI håndterer alt der kommer ind imens.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-who ai">🤖 Din AI</div>
+        <div class="tl-time">10:30</div>
+        <h4>Flyttet en aftale</h4>
+        <p>En kunde bad om at rykke. Din AI fandt en ny tid, sendte bekræftelse til begge parter og opdaterede kalenderen.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-who ai">🤖 Din AI</div>
+        <div class="tl-time">12:00</div>
+        <h4>Sendte opfølgning på tilbud</h4>
+        <p>Lars H. har ikke svaret i 3 dage. Din AI sendte en venlig opfølgning — han svarede ja 20 minutter efter.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-who you">👤 Dig</div>
+        <div class="tl-time">16:00</div>
+        <h4>Du er færdig for i dag</h4>
+        <p>Du chatter med din AI: "Opdater hjemmesiden med billedet fra dagens opgave." Gjort på 10 sekunder.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-who ai">🤖 Din AI</div>
+        <div class="tl-time">22:30</div>
+        <h4>Endnu en kunde fanget</h4>
+        <p>Mens du sover, svarer din AI en kunde der søgte på Google. Besigtigelse booket til overmorgen.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PRICING -->
+<section id="reference" style="padding:60px 0;background:var(--surface)">
+<div class="container">
+  <div class="sh-label">Kunde</div>
+  <h2 class="sh-title">Kører hos SPS Gruppen i Ballerup</h2>
+  <p class="sh-sub">Gulvfirmaet SPS Gruppen bruger Lokly hver dag: chatten på <a href="https://spsgruppen.dk" target="_blank" rel="noopener" style="color:var(--cyan)">spsgruppen.dk</a> regner priser ud fra kundens kvadratmeter og billeder og sender opgaven videre som lead. Medarbejderne ser dagens opgaver i deres egen app. Ejeren sender en idé på sms, og den er bygget næste dag.</p>
+</div>
+</section>
+<section id="pricing">
+<div class="container">
+  <div class="sh-label">Simpel pris</div>
+  <h2 class="sh-title">Én medarbejder. Én pris. Alt inkluderet.</h2>
+  <p class="sh-sub">Ingen skjulte gebyrer. Ingen tillæg. Alt er med.</p>
+
+  <div class="pricing-card">
+    <div class="pricing-label">Digital Medarbejder</div>
+    <div class="pricing-name">All-in-a-Box</div>
+    <div class="pricing-price">
+      <div class="pricing-setup">15.000 kr <small>opsætning</small></div>
+      <div class="pricing-monthly">derefter <span>8.500 kr</span> /md</div>
+    </div>
+    <ul class="pricing-features">
+      <li><span class="check">✓</span> Din egen AI-medarbejder, trænet på din virksomhed</li>
+      <li><span class="check">✓</span> Kundeservice 24/7 — chat, email, telefon</li>
+      <li><span class="check">✓</span> Opgave-app til dine folk: dagens opgaver, adresser, timer</li>
+      <li><span class="check">✓</span> Automatisk booking med bekræftelser</li>
+      <li><span class="check">✓</span> Professionel hjemmeside du kan styre via chat</li>
+      <li><span class="check">✓</span> Dashboard med overblik og statistik</li>
+      <li><span class="check">✓</span> Fuldt managed og hosted af Lokly</li>
+      <li><span class="check">✓</span> Løbende opdateringer og forbedringer</li>
+      <li><span class="check">✓</span> 100% på dansk</li>
+    </ul>
+    <a href="#kontakt" class="btn btn-primary" style="width:100%;justify-content:center">Book gratis demo →</a>
+    <p class="pricing-note">Priser ekskl. moms. Ingen binding, 1 måneds opsigelse. Nye ønsker bygges løbende uden ekstra regning.</p>
+  </div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+<div class="container">
+  <h2>Klar til at sige det<br>til <span class="grad">din AI?</span></h2>
+  <p>Book en gratis 15-minutters demo. Vi viser dig præcis hvordan din digitale medarbejder ville fungere for din virksomhed.</p>
+  <a href="#kontakt" class="btn btn-primary">Book gratis demo →</a>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="kontakt">
+<div class="container">
+  <div class="sh-label">Kontakt</div>
+  <h2 class="sh-title">Lad os tage en snak</h2>
+  <p class="sh-sub" style="margin-bottom:48px">Skriv til os — vi vender tilbage inden for få timer.</p>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Vi er klar til at hjælpe</h3>
+      <div class="contact-items">
+        <div class="contact-item"><div class="ci-icon">✉️</div><div><h4>Email</h4><p>hej@lokly.dk</p></div></div>
+        <div class="contact-item"><div class="ci-icon">📞</div><div><h4>Telefon</h4><p>+45 50 55 13 01</p></div></div>
+        <div class="contact-item"><div class="ci-icon">📍</div><div><h4>Lokation</h4><p>København — vi dækker hele Danmark</p></div></div>
+        <div class="contact-item"><div class="ci-icon">⏰</div><div><h4>Svartid</h4><p>Typisk inden for få timer</p></div></div>
+      </div>
+    </div>
+    <form class="contact-form" onsubmit="return submitForm(event)">
+      <input type="text" name="name" placeholder="Dit navn" required>
+      <input type="email" name="email" placeholder="Din email" required>
+      <input type="text" name="company" placeholder="Virksomhedsnavn">
+      <input type="tel" name="phone" placeholder="Telefonnummer">
+      <textarea name="message" placeholder="Fortæl kort om din virksomhed og hvad du har brug for..."></textarea>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send besked →</button>
+    </form>
+  </div>
+</div>
+</section>
+
+<div id="lk-chat">
+  <div class="lk-head"><strong>Prøv din AI-medarbejder</strong><span>Demo, svarer på dansk</span><button onclick="chatToggle(false)" aria-label="Luk">×</button></div>
+  <div id="lk-log"></div>
+  <form class="lk-form" onsubmit="return chatSend(event)"><input id="lk-in" autocomplete="off" placeholder="Skriv fx: jeg har et VVS-firma med 6 mand…"><button type="submit">Send</button></form>
+</div>
+<button id="lk-fab" onclick="chatToggle()" aria-label="Prøv chatten">Prøv chatten</button>
+<style>
+.btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-secondary:hover{border-color:var(--cyan)}
+#lk-fab{position:fixed;right:20px;bottom:20px;z-index:90;background:var(--gradient);color:var(--bg);border:0;border-radius:999px;padding:14px 22px;font:600 .95rem Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 8px 30px rgba(0,212,255,.35)}
+#lk-chat{position:fixed;right:20px;bottom:80px;z-index:91;width:min(380px,calc(100vw - 40px));height:min(560px,calc(100vh - 120px));background:var(--card);border:1px solid var(--border);border-radius:20px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#lk-chat.open{display:flex}
+.lk-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
+.lk-head span{color:var(--muted);font-size:.8rem;flex:1}
+.lk-head button{background:none;border:0;color:var(--muted);font-size:1.4rem;cursor:pointer;line-height:1}
+#lk-log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.lk-m{max-width:85%;padding:10px 14px;border-radius:14px;font-size:.92rem;line-height:1.45;white-space:pre-wrap}
+.lk-m.a{background:var(--surface);border:1px solid var(--border);align-self:flex-start}
+.lk-m.u{background:var(--blue);color:#fff;align-self:flex-end}
+.lk-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);background:var(--surface)}
+.lk-form input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px 12px;font:inherit}
+.lk-form button{background:var(--gradient);color:var(--bg);border:0;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer}
+</style>
+<footer>
+<div class="container">
+  <p>© 2026 Lokly — Din lokale AI-partner</p>
+</div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40)});
+document.getElementById('burger').addEventListener('click',()=>{document.getElementById('navLinks').classList.toggle('open')});
+document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>{document.getElementById('navLinks').classList.remove('open')}));
+function submitForm(e){e.preventDefault();var f=e.target,d={};new FormData(f).forEach(function(v,k){d[k]=v});var b=f.querySelector('button');b.disabled=true;b.textContent='Sender…';
+fetch('https://nordai.tech/api/kontakt',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(r){return r.json()}).then(function(j){if(j.ok){b.textContent='Tak, vi ringer eller skriver i dag';f.reset()}else{b.disabled=false;b.textContent='Send besked →';alert('Skriv mindst en mail eller et telefonnummer.')}}).catch(function(){b.disabled=false;b.textContent='Send besked →';alert('Noget gik galt. Ring i stedet: +45 50 55 13 01')});return false}
+var chatSid='';function chatToggle(open){var w=document.getElementById('lk-chat');w.classList.toggle('open',open===undefined?!w.classList.contains('open'):open);if(w.classList.contains('open')){document.getElementById('lk-in').focus();var l=document.getElementById('lk-log');if(!l.children.length)chatAdd('a','Hej. Jeg er en demo af den AI-medarbejder du får med Lokly. Fortæl mig hvad din virksomhed laver, så viser jeg hvad jeg ville tage mig af for dig.')}}
+function chatAdd(who,t){var l=document.getElementById('lk-log'),d=document.createElement('div');d.className='lk-m '+who;d.textContent=t;l.appendChild(d);l.scrollTop=l.scrollHeight;return d}
+function chatSend(e){e.preventDefault();var i=document.getElementById('lk-in'),t=i.value.trim();if(!t)return false;i.value='';chatAdd('u',t);var w=chatAdd('a','…');
+fetch('https://nordai.tech/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,session_id:chatSid})}).then(function(r){return r.json()}).then(function(j){chatSid=j.session_id||chatSid;w.textContent=(j.response||j.error||'Fejl').replace(/\*\*/g,'').replace(/^#+\s*/gm,'')}).catch(function(){w.textContent='Forbindelsen drillede. Prøv igen.'});return false}
+</script>
+</body>
+</html>

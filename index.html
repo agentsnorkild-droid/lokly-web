@@ -362,7 +362,7 @@ footer .logo{color:#fff;font-size:1.2rem}
 
 <button id="lk-fab" onclick="chatToggle()">Prøv chatten</button>
 <div id="lk-chat">
-  <div class="lk-head"><strong>Prøv AI-chatten</strong><span>Demo på dansk</span><button onclick="chatToggle(false)" aria-label="Luk">×</button></div>
+  <div class="lk-head"><strong id="lkTitle">Prøv AI-chatten</strong><span id="lkSub">Demo på dansk</span><button onclick="chatToggle(false)" aria-label="Luk">×</button></div>
   <div id="lk-log"></div>
   <form class="lk-form" onsubmit="return chatSend(event)"><input id="lk-in" autocomplete="off" placeholder="Skriv fx: jeg har et VVS-firma med 6 mand…"><button type="submit">Send</button></form>
 </div>
@@ -370,11 +370,17 @@ footer .logo{color:#fff;font-size:1.2rem}
 <script>
 function submitForm(e){e.preventDefault();var f=e.target,d={};new FormData(f).forEach(function(v,k){d[k]=v});var b=f.querySelector('button');b.disabled=true;b.textContent='Sender…';
 fetch('https://api.snorkild.cc/api/kontakt',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).then(function(r){return r.json()}).then(function(j){if(j.ok){b.textContent='Tak — jeg vender tilbage i dag';f.reset()}else{b.disabled=false;b.textContent='Send besked';alert('Skriv mindst en mail eller et telefonnummer.')}}).catch(function(){b.disabled=false;b.textContent='Send besked';alert('Noget gik galt. Ring i stedet: +45 50 55 13 01')});return false}
+var API_BASE='https://api.snorkild.cc';
 var chatSid='';
-function chatToggle(open){var w=document.getElementById('lk-chat');w.classList.toggle('open',open===undefined?!w.classList.contains('open'):open);if(w.classList.contains('open')){document.getElementById('lk-in').focus();var l=document.getElementById('lk-log');if(!l.children.length)chatAdd('a','Hej. Jeg er en demo af den AI-chat, Lokly bygger. Fortæl mig, hvad din virksomhed laver, så viser jeg, hvad jeg kunne tage mig af for dig.')}}
+var demoSlug=(function(){var m=location.pathname.match(/^\/demo\/([a-z0-9-]{2,40})\/?$/);if(m)return m[1];var q=new URLSearchParams(location.search).get('demo');return q&&/^[a-z0-9-]{2,40}$/.test(q)?q:'';})();
+if(demoSlug){fetch(API_BASE+'/api/demo/'+demoSlug).then(function(r){return r.ok?r.json():null}).then(function(d){if(!d||!d.ok){demoSlug='';return;}
+  document.getElementById('lkTitle').textContent=d.firma+'s assistent';document.getElementById('lkSub').textContent='Demo bygget af Lokly';
+  var b=document.createElement('div');b.style.cssText='background:#12564b;color:#fff;text-align:center;padding:12px 16px;font-size:15px';b.innerHTML='Demo for <b>'+d.firma.replace(/</g,'&lt;')+'</b>: sådan kunne jeres egen chat se ud. Prøv den nederst til højre, eller ring til Alex på 50 55 13 01.';document.body.insertBefore(b,document.body.firstChild);
+  setTimeout(function(){chatToggle(true);},600);}).catch(function(){demoSlug='';});}
+function chatToggle(open){var w=document.getElementById('lk-chat');w.classList.toggle('open',open===undefined?!w.classList.contains('open'):open);if(w.classList.contains('open')){document.getElementById('lk-in').focus();var l=document.getElementById('lk-log');if(!l.children.length)chatAdd('a',demoSlug?'Hej. Du skriver med '+document.getElementById('lkTitle').textContent+'. Hvad kan vi hjælpe med?':'Hej. Jeg er en demo af den AI-chat, Lokly bygger. Fortæl mig, hvad din virksomhed laver, så viser jeg, hvad jeg kunne tage mig af for dig.')}}
 function chatAdd(who,t){var l=document.getElementById('lk-log'),d=document.createElement('div');d.className='lk-m '+who;d.textContent=t;l.appendChild(d);l.scrollTop=l.scrollHeight;return d}
 function chatSend(e){e.preventDefault();var i=document.getElementById('lk-in'),t=i.value.trim();if(!t)return false;i.value='';chatAdd('u',t);var w=chatAdd('a','…');
-fetch('https://api.snorkild.cc/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,session_id:chatSid})}).then(function(r){return r.json()}).then(function(j){chatSid=j.session_id||chatSid;w.textContent=(j.response||j.error||'Fejl').replace(/\*\*/g,'').replace(/^#+\s*/gm,'')}).catch(function(){w.textContent='Forbindelsen svigtede. Prøv igen.'});return false}
+fetch('https://api.snorkild.cc/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,session_id:chatSid,demo:demoSlug})}).then(function(r){return r.json()}).then(function(j){chatSid=j.session_id||chatSid;w.textContent=(j.response||j.error||'Fejl').replace(/\*\*/g,'').replace(/^#+\s*/gm,'')}).catch(function(){w.textContent='Forbindelsen svigtede. Prøv igen.'});return false}
 
 (function(){var c=document.getElementById('calc');if(!c)return;
 function upd(){var t=0,n=0;c.querySelectorAll('input[type=checkbox]').forEach(function(x){if(x.checked){t+=parseInt(x.dataset.amt);n++}});

@@ -157,6 +157,13 @@ footer{padding:36px 0 50px;border-top:1px solid var(--line)}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:var(--muted)}
 footer a:hover{color:var(--ink)}
 
+/* blobs i forgrunden: fast lag over hele siden, under menuen */
+.fg-blobs{position:fixed;inset:0;z-index:20;pointer-events:none;overflow:hidden}
+.fg-blobs svg{width:100%;height:100%;display:block}
+.fg-blobs circle{fill:var(--green)}
+.fg-blobs .fg-goo{opacity:.62;mix-blend-mode:screen}
+.proc{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.fg-blobs{display:none}}
 /* reveal */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
@@ -395,6 +402,34 @@ var nav=document.querySelector('.nav');window.addEventListener('scroll',function
   }
   /* første gang: kort runde, så man ser at ringen lever */
   var demo=0;var dv=setInterval(function(){if(active!==-1||window.scrollY>80||demo>=6){clearInterval(dv);if(active===-1)light([]);return}light([demo]);pulse(demo);demo++},900);
+})();
+
+/* ---------- blobs i forgrunden: organiske, driver, smelter sammen, følger fingeren ---------- */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var wrap=document.createElement('div');wrap.className='fg-blobs';
+  wrap.innerHTML='<svg><defs><filter id="fggoo" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur in="SourceGraphic" stdDeviation="16" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -11"/></filter></defs><g class="fg-goo" filter="url(#fggoo)"></g></svg>';
+  document.body.appendChild(wrap);
+  var svg=wrap.querySelector('svg'),g=wrap.querySelector('g'),W=0,H=0,bl=[],mx=-1e4,my=-1e4,t0=performance.now(),lastY=window.scrollY,scrollV=0;
+  function size(){W=window.innerWidth;H=window.innerHeight;svg.setAttribute('viewBox','0 0 '+W+' '+H)}size();window.addEventListener('resize',size);
+  var mobil=W<700,antal=mobil?6:9,sk=mobil?.7:1;
+  for(var i=0;i<antal;i++){var c=document.createElementNS('http://www.w3.org/2000/svg','circle');g.appendChild(c);
+    var hx=W*(0.06+0.88*Math.random()),hy=H*(0.08+0.84*Math.random());
+    bl.push({el:c,hx:hx,hy:hy,x:hx,y:hy,vx:0,vy:0,r:(26+Math.random()*52)*sk,ph:Math.random()*6.28,sp:.12+Math.random()*.2,par:.15+Math.random()*.35})}
+  window.addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY},{passive:true});
+  window.addEventListener('touchmove',function(e){var t=e.touches[0];if(t){mx=t.clientX;my=t.clientY}},{passive:true});
+  window.addEventListener('pointerleave',function(){mx=my=-1e4});
+  window.addEventListener('scroll',function(){scrollV+=(window.scrollY-lastY);lastY=window.scrollY},{passive:true});
+  function tick(now){var t=(now-t0)/1000;scrollV*=.9;
+    for(var i=0;i<bl.length;i++){var b=bl[i];
+      var tx=b.hx+Math.cos(t*b.sp+b.ph)*W*0.07,ty=b.hy+Math.sin(t*b.sp*.8+b.ph)*H*0.09-scrollV*b.par;  /* driver, og giver efter for scroll */
+      var ax=(tx-b.x)*.0022,ay=(ty-b.y)*.0022;
+      var dx=mx-b.x,dy=my-b.y,d=Math.sqrt(dx*dx+dy*dy);if(d<280&&d>1){var f=(1-d/280)*.4;ax+=dx/d*f;ay+=dy/d*f}
+      for(var j=0;j<bl.length;j++){if(j===i)continue;var o=bl[j],ox=b.x-o.x,oy=b.y-o.y,od=Math.sqrt(ox*ox+oy*oy),mn=(b.r+o.r)*.5;if(od<mn&&od>1){var p=(mn-od)/mn*.04;ax+=ox/od*p;ay+=oy/od*p}}
+      b.vx=(b.vx+ax)*.94;b.vy=(b.vy+ay)*.94;b.x+=b.vx;b.y+=b.vy;
+      b.el.setAttribute('cx',b.x.toFixed(1));b.el.setAttribute('cy',b.y.toFixed(1));b.el.setAttribute('r',(b.r*(1+Math.sin(t*.8+b.ph)*.1)).toFixed(1))}
+    requestAnimationFrame(tick)}
+  requestAnimationFrame(tick);
 })();
 
 /* ---------- reveal + stregtegning ---------- */

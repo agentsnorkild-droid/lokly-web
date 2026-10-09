@@ -158,10 +158,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
 footer a:hover{color:var(--ink)}
 
 /* blobs i forgrunden: fast lag over hele siden, under menuen */
-.fg-blobs{position:fixed;inset:0;z-index:20;pointer-events:none;overflow:hidden}
+.fg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.stage,.why,.contact-sec,footer{position:relative;z-index:1}
 .fg-blobs svg{width:100%;height:100%;display:block}
 .fg-blobs circle{fill:var(--green)}
-.fg-blobs .fg-goo{opacity:.62;mix-blend-mode:screen}
+.fg-blobs .fg-goo{opacity:.75}
 .proc{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.fg-blobs{display:none}}
 /* reveal */

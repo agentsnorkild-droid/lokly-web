@@ -180,15 +180,17 @@ footer a:hover{color:var(--ink)}
   .stage .wrap{grid-template-columns:1fr;gap:0}
   .stage-left{padding-top:110px}
   .hero{min-height:0;padding-bottom:40px}
-  .stage-right{position:sticky;top:64px;height:auto;padding:6px 0 10px;background:var(--bg);z-index:5}
-  .ring{width:min(58vw,300px)}
+  .stage-right{position:sticky;top:64px;height:auto;padding:4px 0 6px;background:var(--bg);z-index:5;box-shadow:0 18px 18px -12px var(--bg)}
+  .ring{width:min(62vw,280px);padding:12%}
+  .ring .lbl{font-size:17px}.ring .sat-lbl{font-size:14px}.ring .node{r:8}.ring .sat{r:6}
+  .row{padding-left:14px}.row:before{left:0}
   .hero{padding-bottom:10px}
   .why .head,.proc .grid,.contact-sec .grid{grid-template-columns:1fr;gap:34px}
   .vgrid{grid-template-columns:1fr 1fr}
   .nav-links{position:fixed;top:64px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:0;background:rgba(11,11,11,.97);border-bottom:1px solid var(--line);display:none;padding:10px 28px 20px}
   .nav-links.open{display:flex}.nav-links a{padding:12px 0;width:100%}.burger{display:block}
 }
-@media(max-width:600px){.vgrid{grid-template-columns:1fr}.row{grid-template-columns:36px 1fr}.row:before{left:-14px}.why,.proc,.contact-sec{padding:80px 0}.systems{padding-bottom:80px}}
+@media(max-width:600px){.vgrid{grid-template-columns:1fr}.row{grid-template-columns:36px 1fr}.why,.proc,.contact-sec{padding:80px 0}.systems{padding-bottom:80px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.hero h1 .w,.hero p,.hero .cta,.hero .fine,.nav,.rv{opacity:1;transform:none}.draw .ln{stroke-dashoffset:0}}
 </style>
 </head>
@@ -236,7 +238,7 @@ footer a:hover{color:var(--ink)}
         <circle class="arc" id="arc" cx="300" cy="300" r="250"/>
         <g id="spokes"></g>
         
-        <g class="goo" id="goo"></g>
+        <g class="goo" id="core"></g>
         
         <g id="nodes"></g>
         
@@ -361,7 +363,7 @@ var nav=document.querySelector('.nav');window.addEventListener('scroll',function
   var SAT=[{n:'Regnskab',a:-Math.PI/2+0.42},{n:'Kalender',a:-Math.PI/2+2.2},{n:'Telefon',a:-Math.PI/2+4.0}];
   var ring=document.getElementById('ring');if(!ring)return;
   var el=function(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);(p||ring.querySelector('svg')).appendChild(e);return e};
-  var ticks=document.getElementById('ticks'),spokes=document.getElementById('spokes'),nodes=document.getElementById('nodes'),goo=document.getElementById('goo'),arc=document.getElementById('arc');
+  var ticks=document.getElementById('ticks'),spokes=document.getElementById('spokes'),nodes=document.getElementById('nodes'),goo=document.getElementById('core'),arc=document.getElementById('arc');
   for(var i=0;i<24;i++){var a=i/24*Math.PI*2,big=i%3===0,r1=R+(big?9:6),r2=R+13;el('line',{'class':'tick',x1:C+Math.cos(a)*r1,y1:C+Math.sin(a)*r1,x2:C+Math.cos(a)*r2,y2:C+Math.sin(a)*r2},ticks)}
   var pts=SYS.map(function(n,i){var a=-Math.PI/2+i/SYS.length*Math.PI*2;return{a:a,x:C+Math.cos(a)*R,y:C+Math.sin(a)*R,name:n}});
   var sp=[],nd=[],lb=[];
